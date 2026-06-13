@@ -2,20 +2,16 @@ from tools import get_current_time, calculate_word_count, convert_to_uppercase
 from planner import plan_action
 from executor import execute_action
 
-
-
-AGENT_NAME = "BasicAgent"
-AGENT_PERSONALITY = "helpful and direct"
-
-EXIT_COMMANDS = {"exit", "quit", "bye"}
-
-
-
-COMMAND_HELP = "help"
-COMMAND_TIME = "time"
-COMMAND_HISTORY = "history"
-COMMAND_COUNT = "count"
-COMMAND_UPPER = "upper"
+from config import (
+    AGENT_NAME,
+    AGENT_PERSONALITY,
+    EXIT_COMMANDS,
+    COMMAND_HELP,
+    COMMAND_TIME,
+    COMMAND_HISTORY,
+    COMMAND_COUNT,
+    COMMAND_UPPER,
+)
 
 
 TOOLS = {
