@@ -1,5 +1,6 @@
 from tools import get_current_time, calculate_word_count, convert_to_uppercase
 from planner import plan_action
+from executor import execute_tool
 
 
 AGENT_NAME = "BasicAgent"
@@ -102,22 +103,19 @@ def handle_command(command, conversation_history):
         return get_help_text()
 
     if action["type"] == "tool" and action["tool_name"] == COMMAND_TIME:
-        tool = TOOLS[COMMAND_TIME]["function"]
-        return tool()
+        return execute_tool(COMMAND_TIME, TOOLS)
 
     if action["type"] == "command" and action["command_name"] == COMMAND_HISTORY:
         return f"Conversation history: {conversation_history}"
     
     if action["type"] == "tool" and action["tool_name"] == COMMAND_COUNT:
         text_to_count = extract_text_after_command(command, COMMAND_COUNT)
-        tool = TOOLS[COMMAND_COUNT]["function"]
-        word_count = tool(text_to_count)
+        word_count = execute_tool(COMMAND_COUNT, TOOLS, text_to_count)
         return f"Word count: {word_count}"
 
     if action["type"] == "tool" and action["tool_name"] == COMMAND_UPPER:
         text_to_convert = extract_text_after_command(command, COMMAND_UPPER)
-        tool = TOOLS[COMMAND_UPPER]["function"]
-        upper_text = tool(text_to_convert)
+        upper_text = execute_tool(COMMAND_UPPER, TOOLS, text_to_convert)
         return f"Uppercase: {upper_text}"
 
     return None
