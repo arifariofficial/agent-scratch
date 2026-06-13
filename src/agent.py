@@ -12,3 +12,6 @@ class Agent:
 
     def create_fallback_response(self, user_input):
         return f"{self.name} ({self.personality}): You said: {user_input}"
+
+    def get_history(self):
+        return self.conversation_history

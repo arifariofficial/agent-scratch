@@ -81,7 +81,7 @@ def handle_command(command, agent):
     result = execute_action(
         action,
         command,
-        agent.conversation_history,
+        agent.get_history(),
         TOOLS,
         COMMAND_HELP,
         COMMAND_HISTORY,
