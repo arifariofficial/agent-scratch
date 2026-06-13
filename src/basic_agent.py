@@ -6,11 +6,20 @@ AGENT_PERSONALITY = "helpful and direct"
 
 EXIT_COMMANDS = {"exit", "quit", "bye"}
 
+
+
 COMMAND_HELP = "help"
 COMMAND_TIME = "time"
 COMMAND_HISTORY = "history"
 COMMAND_COUNT = "count"
 COMMAND_UPPER = "upper"
+
+
+TOOLS = {
+    COMMAND_TIME: get_current_time,
+    COMMAND_COUNT: calculate_word_count,
+    COMMAND_UPPER: convert_to_uppercase,
+}
 
 AVAILABLE_COMMANDS = {
     COMMAND_HELP,
@@ -19,6 +28,8 @@ AVAILABLE_COMMANDS = {
     COMMAND_COUNT,
     COMMAND_UPPER,
 }
+
+
 
 def clean_input(user_input):
     return user_input.strip().lower()
@@ -40,19 +51,22 @@ def handle_command(command, conversation_history):
         return get_help_text()
 
     if command == COMMAND_TIME:
-        return get_current_time()
+        tool = TOOLS[COMMAND_TIME]
+        return tool()
 
     if command == COMMAND_HISTORY:
         return f"Conversation history: {conversation_history}"
     
     if is_count_command(command):
         text_to_count = command.removeprefix("count ")
-        word_count = calculate_word_count(text_to_count)
+        tool = TOOLS[COMMAND_COUNT]
+        word_count = tool(text_to_count)
         return f"Word count: {word_count}"
     
     if is_upper_command(command):
         text_to_convert = command.removeprefix("upper ")
-        upper_text = convert_to_uppercase(text_to_convert)
+        tool = TOOLS[COMMAND_UPPER]
+        upper_text = tool(text_to_convert)
         return f"Uppercase: {upper_text}"
 
     return None
