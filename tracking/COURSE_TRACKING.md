@@ -15,6 +15,7 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 - Lesson branch pushed to GitHub.
 - Learning pace rule updated: do not stop for Git after every tiny change.
 - Lesson 01 milestone completed: loop, exit command, simple decision logic, and conversation history.
+- Lesson 02 milestone completed: cleaner structure with helper functions, command handler, fallback response, agent name/personality, and welcome message.
 
 ## Branch Workflow
 
@@ -40,6 +41,19 @@ Implemented in `src/basic_agent.py`:
 - Conversation history stored in memory.
 - Milestone commit pushed from `lesson-01-basic-agent`.
 
+## Lesson 02: Clean Agent Structure
+
+Implemented in `src/basic_agent.py`:
+
+- `clean_input()` helper.
+- `should_exit()` helper.
+- `handle_command()` command handler.
+- `create_fallback_response()` fallback response function.
+- `get_agent_response()` as the main response router.
+- `AGENT_NAME` and `AGENT_PERSONALITY` constants.
+- Welcome message on startup.
+- Milestone commit pushed from `lesson-01-basic-agent`.
+
 ## Progress Log
 
 | Date | Status | Notes |
@@ -49,9 +63,10 @@ Implemented in `src/basic_agent.py`:
 | 2026-06-13 | Done | Created and pushed `src/basic_agent.py`, a basic input echo agent. |
 | 2026-06-13 | Updated | Adjusted learning workflow: less frequent Git checkpoints, faster coding flow. |
 | 2026-06-13 | Done | Completed Lesson 01 milestone: loop, commands, and memory. |
+| 2026-06-13 | Done | Completed Lesson 02 milestone: clean helper functions and command handler structure. |
 
 ## Next Action
 
-- Start Lesson 02: separate agent logic into cleaner functions.
-- Goal: make the code easier to extend before adding real LLM calls.
+- Start Lesson 03: add a simple real tool function.
+- Goal: understand how agents use tools by adding a local Python tool before calling any LLM.
 - Continue coding first; Git checkpoint only after the next meaningful milestone works.
