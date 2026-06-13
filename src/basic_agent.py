@@ -2,7 +2,7 @@ AGENT_NAME = "BasicAgent"
 AGENT_PERSONALITY = "helpful and direct"
 
 EXIT_COMMANDS = {"exit", "quit", "bye"}
-AVAILABLE_COMMANDS = {"help", "time", "history"}
+AVAILABLE_COMMANDS = {"help", "time", "history", "count", "upper"}
 
 def clean_input(user_input):
     return user_input.strip().lower()
@@ -10,15 +10,35 @@ def clean_input(user_input):
 def should_exit(user_input):
     return clean_input(user_input) in EXIT_COMMANDS
 
+def get_current_time():
+    return "Tool result: current time is not connected yet"
+
+def calculate_word_count(text):
+    words = text.split()
+    return len(words)
+
+def convert_to_uppercase(text):
+    return text.upper()
+
 def handle_command(command, conversation_history):
     if command == "help":
-        return f"Available commands: {', '.join(sorted(AVAILABLE_COMMANDS))}, exit"
+        return "Available commands: help, time, history, count <text>, upper <text>, exit"
 
     if command == "time":
-        return "I cannot check the time yet, but later I will use a tool for this."
+        return get_current_time()
 
     if command == "history":
         return f"Conversation history: {conversation_history}"
+    
+    if command.startswith("count "):
+        text_to_count = command.removeprefix("count ")
+        word_count = calculate_word_count(text_to_count)
+        return f"Word count: {word_count}"
+    
+    if command.startswith("upper "):
+        text_to_convert = command.removeprefix("upper ")
+        upper_text = convert_to_uppercase(text_to_convert)
+        return f"Uppercase: {upper_text}"
 
     return None
 
