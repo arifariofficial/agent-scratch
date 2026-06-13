@@ -9,3 +9,6 @@ class Agent:
 
     def get_welcome_message(self):
         return f"{self.name} is ready. Type 'help' for commands"
+
+    def create_fallback_response(self, user_input):
+        return f"{self.name} ({self.personality}): You said: {user_input}"

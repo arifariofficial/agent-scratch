@@ -68,7 +68,7 @@ def extract_text_after_command(command, command_name):
     return " ".join(remaining_words)
 
 
-def handle_command(command, conversation_history):
+def handle_command(command, agent):
     action = plan_action(
         command,
         TOOLS,
@@ -81,7 +81,7 @@ def handle_command(command, conversation_history):
     result = execute_action(
         action,
         command,
-        conversation_history,
+        agent.conversation_history,
         TOOLS,
         COMMAND_HELP,
         COMMAND_HISTORY,
@@ -96,14 +96,13 @@ def handle_command(command, conversation_history):
         action,
         result,
         command,
-        AGENT_NAME,
-        AGENT_PERSONALITY,
+        agent,
     )
 
 
-def get_agent_response(user_input, conversation_history):
+def get_agent_response(user_input, agent):
     cleaned_input = clean_input(user_input)
-    return handle_command(cleaned_input, conversation_history)
+    return handle_command(cleaned_input, agent)
 
 
 def main():
@@ -117,7 +116,7 @@ def main():
             print("Goodbye")
             break
 
-        print(get_agent_response(user_input, agent.conversation_history))
+        print(get_agent_response(user_input, agent))
 
 
 if __name__ == "__main__":
