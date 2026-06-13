@@ -28,10 +28,6 @@ def clean_input(user_input):
     return user_input.strip().lower()
 
 
-def should_exit(user_input):
-    return clean_input(user_input) in EXIT_COMMANDS
-
-
 def get_help_text():
     lines = ["Available commands:"]
 
@@ -107,12 +103,13 @@ def get_agent_response(user_input, agent):
 
 def main():
     agent = Agent(AGENT_NAME, AGENT_PERSONALITY)
+    print(agent.get_welcome_message())
 
     while True:
         user_input = input("You: ")
         agent.remember(user_input)
 
-        if should_exit(user_input):
+        if agent.should_exit(user_input, EXIT_COMMANDS):
             print("Goodbye")
             break
 

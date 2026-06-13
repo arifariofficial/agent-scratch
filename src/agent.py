@@ -15,3 +15,6 @@ class Agent:
 
     def get_history(self):
         return self.conversation_history
+
+    def should_exit(self, user_input, exit_commands):
+        return user_input.strip().lower() in exit_commands
