@@ -1,4 +1,5 @@
 from tools import get_current_time, calculate_word_count, convert_to_uppercase
+from planner import plan_action
 
 
 AGENT_NAME = "BasicAgent"
@@ -70,18 +71,6 @@ def is_count_command(command):
 def is_upper_command(command):
     return command.startswith(f"{COMMAND_UPPER} ")
 
-def contains_command(command, command_name):
-    words = command.split()
-    return command_name in words
-
-def parse_intent(command):
-    if contains_command(command, COMMAND_COUNT):
-        return COMMAND_COUNT
-
-    if contains_command(command, COMMAND_UPPER):
-        return COMMAND_UPPER
-
-    return command
 
 def extract_text_after_command(command, command_name):
     words = command.split()
@@ -94,27 +83,18 @@ def extract_text_after_command(command, command_name):
 
     return " ".join(remaining_words)
 
-def plan_action(command):
-    intent = parse_intent(command)
 
-    if intent in TOOLS:
-        return {
-            "type": "tool",
-            "tool_name": intent,
-        }
-
-    if intent in {COMMAND_HELP, COMMAND_HISTORY}:
-        return {
-            "type": "command",
-            "command_name": intent,
-        }
-
-    return {
-        "type": "fallback",
-    }
 
 def handle_command(command, conversation_history):
-    action = plan_action(command)
+    action = plan_action(
+        command,
+        TOOLS,
+        COMMAND_HELP,
+        COMMAND_HISTORY,
+        COMMAND_COUNT,
+        COMMAND_UPPER,
+    )
+
     if action["type"] == "fallback":
         return None
 
