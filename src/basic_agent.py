@@ -94,26 +94,47 @@ def extract_text_after_command(command, command_name):
 
     return " ".join(remaining_words)
 
-def handle_command(command, conversation_history):
+def plan_action(command):
     intent = parse_intent(command)
 
-    if intent == COMMAND_HELP:
+    if intent in TOOLS:
+        return {
+            "type": "tool",
+            "tool_name": intent,
+        }
+
+    if intent in {COMMAND_HELP, COMMAND_HISTORY}:
+        return {
+            "type": "command",
+            "command_name": intent,
+        }
+
+    return {
+        "type": "fallback",
+    }
+
+def handle_command(command, conversation_history):
+    action = plan_action(command)
+    if action["type"] == "fallback":
+        return None
+
+    if action["type"] == "command" and action["command_name"] == COMMAND_HELP:
         return get_help_text()
 
-    if intent == COMMAND_TIME:
+    if action["type"] == "tool" and action["tool_name"] == COMMAND_TIME:
         tool = TOOLS[COMMAND_TIME]["function"]
         return tool()
 
-    if intent == COMMAND_HISTORY:
+    if action["type"] == "command" and action["command_name"] == COMMAND_HISTORY:
         return f"Conversation history: {conversation_history}"
     
-    if intent == COMMAND_COUNT:
+    if action["type"] == "tool" and action["tool_name"] == COMMAND_COUNT:
         text_to_count = extract_text_after_command(command, COMMAND_COUNT)
         tool = TOOLS[COMMAND_COUNT]["function"]
         word_count = tool(text_to_count)
         return f"Word count: {word_count}"
 
-    if intent == COMMAND_UPPER:
+    if action["type"] == "tool" and action["tool_name"] == COMMAND_UPPER:
         text_to_convert = extract_text_after_command(command, COMMAND_UPPER)
         tool = TOOLS[COMMAND_UPPER]["function"]
         upper_text = tool(text_to_convert)
