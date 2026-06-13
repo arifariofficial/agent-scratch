@@ -1,6 +1,7 @@
 from tools import get_current_time, calculate_word_count, convert_to_uppercase
 from planner import plan_action
-from executor import execute_tool
+from executor import execute_action
+
 
 
 AGENT_NAME = "BasicAgent"
@@ -96,32 +97,24 @@ def handle_command(command, conversation_history):
         COMMAND_UPPER,
     )
 
-    result = execute_action(action, command, conversation_history)
+    result = execute_action(
+        action,
+        command,
+        conversation_history,
+        TOOLS,
+        COMMAND_HELP,
+        COMMAND_HISTORY,
+        COMMAND_TIME,
+        COMMAND_COUNT,
+        COMMAND_UPPER,
+        get_help_text,
+        extract_text_after_command,
+    )
 
     return respond_to_action_result(action, result, command)
 
 def create_fallback_response(user_input):
     return f"{AGENT_NAME} ({AGENT_PERSONALITY}): You said: {user_input}"
-
-def execute_action(action, command, conversation_history):
-    if action["type"] == "command" and action["command_name"] == COMMAND_HELP:
-        return get_help_text()
-
-    if action["type"] == "command" and action["command_name"] == COMMAND_HISTORY:
-        return f"Conversation history: {conversation_history}"
-
-    if action["type"] == "tool" and action["tool_name"] == COMMAND_TIME:
-        return execute_tool(COMMAND_TIME, TOOLS)
-
-    if action["type"] == "tool" and action["tool_name"] == COMMAND_COUNT:
-        text_to_count = extract_text_after_command(command, COMMAND_COUNT)
-        return execute_tool(COMMAND_COUNT, TOOLS, text_to_count)
-
-    if action["type"] == "tool" and action["tool_name"] == COMMAND_UPPER:
-        text_to_convert = extract_text_after_command(command, COMMAND_UPPER)
-        return execute_tool(COMMAND_UPPER, TOOLS, text_to_convert)
-
-    return None
 
 def respond_to_action_result(action, result, user_input):
     if action["type"] == "tool":
