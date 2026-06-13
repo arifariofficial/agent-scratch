@@ -70,25 +70,39 @@ def is_count_command(command):
 def is_upper_command(command):
     return command.startswith(f"{COMMAND_UPPER} ")
 
+def parse_intent(command):
+    if command.startswith(COMMAND_COUNT):
+        return COMMAND_COUNT
+
+    if command.startswith(COMMAND_UPPER):
+        return COMMAND_UPPER
+
+    return command
+
+def extract_text_after_command(command, command_name):
+    return command.removeprefix(command_name).strip()
+
 def handle_command(command, conversation_history):
-    if command == COMMAND_HELP:
+    intent = parse_intent(command)
+    
+    if intent == COMMAND_HELP:
         return get_help_text()
 
-    if command == COMMAND_TIME:
+    if intent == COMMAND_TIME:
         tool = TOOLS[COMMAND_TIME]["function"]
         return tool()
 
-    if command == COMMAND_HISTORY:
+    if intent == COMMAND_HISTORY:
         return f"Conversation history: {conversation_history}"
     
-    if is_count_command(command):
-        text_to_count = command.removeprefix("count ")
+    if intent == COMMAND_COUNT:
+        text_to_count = extract_text_after_command(command, COMMAND_COUNT)
         tool = TOOLS[COMMAND_COUNT]["function"]
         word_count = tool(text_to_count)
         return f"Word count: {word_count}"
-    
-    if is_upper_command(command):
-        text_to_convert = command.removeprefix("upper ")
+
+    if intent == COMMAND_UPPER:
+        text_to_convert = extract_text_after_command(command, COMMAND_UPPER)
         tool = TOOLS[COMMAND_UPPER]["function"]
         upper_text = tool(text_to_convert)
         return f"Uppercase: {upper_text}"
