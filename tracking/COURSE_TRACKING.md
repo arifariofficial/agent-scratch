@@ -11,6 +11,11 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 - Lesson 01 completed: basic input loop, exit command, decision logic, simple memory.
 - Lesson 02 completed: cleaner structure with helper functions, constants, fallback response, agent name/personality, welcome message.
 - Lesson 03 completed: basic tool-style commands for time, word count, and uppercase.
+- Lesson 04 completed: cleaner command routing using command constants and helper functions.
+- Lesson 05 completed: moved tool functions into `src/tools.py`.
+- Lesson 06 completed: added a tool registry.
+- Lesson 07 completed: added tool metadata with descriptions and examples.
+- Lesson 08 completed: added basic intent parsing and text extraction after command.
 
 ## Progress Log
 
@@ -20,8 +25,13 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 | 2026-06-13 | Completed | Lesson 01: basic agent loop, commands, and memory. |
 | 2026-06-13 | Completed | Lesson 02: refactored agent into clean helper functions and constants. |
 | 2026-06-13 | Completed | Lesson 03: added fake tool-calling commands: `time`, `count <text>`, `upper <text>`. |
+| 2026-06-13 | Completed | Lesson 04: cleaned command routing with constants and helper functions. |
+| 2026-06-13 | Completed | Lesson 05: separated agent brain and tools into `src/basic_agent.py` and `src/tools.py`. |
+| 2026-06-13 | Completed | Lesson 06: added `TOOLS` registry for tool lookup. |
+| 2026-06-13 | Completed | Lesson 07: added tool metadata: function, description, and example. |
+| 2026-06-13 | Completed | Lesson 08: added basic intent parsing and argument extraction. |
 
 ## Next Action
 
-- Start Lesson 04: command routing with a dictionary instead of many `if` statements.
+- Start Lesson 09: better tool argument parsing, so inputs like `please count hello world` can work.
 - Keep coding fast; commit only after a meaningful milestone.
