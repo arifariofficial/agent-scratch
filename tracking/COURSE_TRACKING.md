@@ -11,6 +11,8 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 - Tracking file created.
 - Current working branch: `lesson-01-basic-agent`.
 - Lesson 01 focus: build a basic agent from scratch.
+- Basic input echo agent created in `src/basic_agent.py`.
+- Lesson branch pushed to GitHub.
 
 ## Branch Workflow
 
@@ -25,10 +27,11 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 |---|---|---|
 | 2026-06-13 | Started | Created initial tracking file in GitHub. |
 | 2026-06-13 | In progress | Switched to `lesson-01-basic-agent` branch for Lesson 01. |
+| 2026-06-13 | Done | Created and pushed `src/basic_agent.py`, a basic input echo agent. |
 
 ## Next Action
 
-- Build the smallest possible basic agent.
-- First goal: Python script that takes user input, sends it to the model, and prints the response.
+- Turn the script from one input into a loop.
+- Goal: keep asking the user for input until they type `exit`, `quit`, or `bye`.
 - Track each completed step here.
 - Update this file after every learning session.
