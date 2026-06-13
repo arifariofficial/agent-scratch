@@ -2,6 +2,7 @@ from planner import plan_action
 from executor import execute_action
 from tool_registry import TOOLS
 from responder import respond_to_action_result
+from agent import Agent
 
 from config import (
     AGENT_NAME,
@@ -106,18 +107,17 @@ def get_agent_response(user_input, conversation_history):
 
 
 def main():
-    conversation_history = []
-    print(f"{AGENT_NAME} is ready. Type 'help' for commands.")
+    agent = Agent(AGENT_NAME, AGENT_PERSONALITY)
 
     while True:
         user_input = input("You: ")
-        conversation_history.append(user_input)
+        agent.remember(user_input)
 
         if should_exit(user_input):
             print("Goodbye")
             break
 
-        print(get_agent_response(user_input, conversation_history))
+        print(get_agent_response(user_input, agent.conversation_history))
 
 
 if __name__ == "__main__":
