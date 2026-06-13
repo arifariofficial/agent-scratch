@@ -1,3 +1,6 @@
+from tools import get_current_time, calculate_word_count, convert_to_uppercase
+
+
 AGENT_NAME = "BasicAgent"
 AGENT_PERSONALITY = "helpful and direct"
 
@@ -22,16 +25,6 @@ def clean_input(user_input):
 
 def should_exit(user_input):
     return clean_input(user_input) in EXIT_COMMANDS
-
-def get_current_time():
-    return "Tool result: current time is not connected yet"
-
-def calculate_word_count(text):
-    words = text.split()
-    return len(words)
-
-def convert_to_uppercase(text):
-    return text.upper()
 
 def get_help_text():
     return "Available commands: help, time, history, count <text>, upper <text>, exit"
