@@ -1,6 +1,7 @@
 from planner import plan_action
 from executor import execute_action
 from tool_registry import TOOLS
+from responder import respond_to_action_result
 
 from config import (
     AGENT_NAME,
@@ -22,12 +23,13 @@ AVAILABLE_COMMANDS = {
 }
 
 
-
 def clean_input(user_input):
     return user_input.strip().lower()
 
+
 def should_exit(user_input):
     return clean_input(user_input) in EXIT_COMMANDS
+
 
 def get_help_text():
     lines = ["Available commands:"]
@@ -44,8 +46,10 @@ def get_help_text():
 
     return "\n".join(lines)
 
+
 def is_count_command(command):
     return command.startswith(f"{COMMAND_COUNT} ")
+
 
 def is_upper_command(command):
     return command.startswith(f"{COMMAND_UPPER} ")
@@ -58,10 +62,9 @@ def extract_text_after_command(command, command_name):
         return ""
 
     command_index = words.index(command_name)
-    remaining_words = words[command_index + 1:]
+    remaining_words = words[command_index + 1 :]
 
     return " ".join(remaining_words)
-
 
 
 def handle_command(command, conversation_history):
@@ -88,29 +91,18 @@ def handle_command(command, conversation_history):
         extract_text_after_command,
     )
 
-    return respond_to_action_result(action, result, command)
+    return respond_to_action_result(
+        action,
+        result,
+        command,
+        AGENT_NAME,
+        AGENT_PERSONALITY,
+    )
 
-def create_fallback_response(user_input):
-    return f"{AGENT_NAME} ({AGENT_PERSONALITY}): You said: {user_input}"
-
-def respond_to_action_result(action, result, user_input):
-    if action["type"] == "tool":
-        return str(result)
-
-    if action["type"] == "command":
-        return str(result)
-
-    return create_fallback_response(user_input)
 
 def get_agent_response(user_input, conversation_history):
     cleaned_input = clean_input(user_input)
-
-    command_response = handle_command(cleaned_input, conversation_history)
-
-    if command_response:
-        return command_response
-
-    return create_fallback_response(user_input)
+    return handle_command(cleaned_input, conversation_history)
 
 
 def main():
@@ -126,6 +118,7 @@ def main():
             break
 
         print(get_agent_response(user_input, conversation_history))
+
 
 if __name__ == "__main__":
     main()
