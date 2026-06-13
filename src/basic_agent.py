@@ -15,14 +15,6 @@ from config import (
     COMMAND_UPPER,
 )
 
-AVAILABLE_COMMANDS = {
-    COMMAND_HELP,
-    COMMAND_TIME,
-    COMMAND_HISTORY,
-    COMMAND_COUNT,
-    COMMAND_UPPER,
-}
-
 
 def clean_input(user_input):
     return user_input.strip().lower()
@@ -42,14 +34,6 @@ def get_help_text():
     lines.append("- exit: Stops the agent")
 
     return "\n".join(lines)
-
-
-def is_count_command(command):
-    return command.startswith(f"{COMMAND_COUNT} ")
-
-
-def is_upper_command(command):
-    return command.startswith(f"{COMMAND_UPPER} ")
 
 
 def extract_text_after_command(command, command_name):
