@@ -1,6 +1,6 @@
-from tools import get_current_time, calculate_word_count, convert_to_uppercase
 from planner import plan_action
 from executor import execute_action
+from tool_registry import TOOLS
 
 from config import (
     AGENT_NAME,
@@ -12,25 +12,6 @@ from config import (
     COMMAND_COUNT,
     COMMAND_UPPER,
 )
-
-
-TOOLS = {
-    COMMAND_TIME: {
-        "function": get_current_time,
-        "description": "Returns the current time",
-        "example": "time",
-    },
-    COMMAND_COUNT: {
-        "function": calculate_word_count,
-        "description": "Counts words in text",
-        "example": "count hello world",
-    },
-    COMMAND_UPPER: {
-        "function": convert_to_uppercase,
-        "description": "Converts text to uppercase",
-        "example": "upper hello world",
-    },
-}
 
 AVAILABLE_COMMANDS = {
     COMMAND_HELP,
