@@ -14,6 +14,7 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 - Basic input echo agent created in `src/basic_agent.py`.
 - Lesson branch pushed to GitHub.
 - Learning pace rule updated: do not stop for Git after every tiny change.
+- Lesson 01 milestone completed: loop, exit command, simple decision logic, and conversation history.
 
 ## Branch Workflow
 
@@ -29,6 +30,16 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 - During active learning, prioritize understanding and coding flow.
 - Use Git checkpoints when a lesson step is stable, not after every command.
 
+## Lesson 01: Basic Agent
+
+Implemented in `src/basic_agent.py`:
+
+- Continuous input loop.
+- Exit command support: `exit`, `quit`, `bye`.
+- Simple command handling: `help`, `time`, `history`.
+- Conversation history stored in memory.
+- Milestone commit pushed from `lesson-01-basic-agent`.
+
 ## Progress Log
 
 | Date | Status | Notes |
@@ -37,10 +48,10 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 | 2026-06-13 | In progress | Switched to `lesson-01-basic-agent` branch for Lesson 01. |
 | 2026-06-13 | Done | Created and pushed `src/basic_agent.py`, a basic input echo agent. |
 | 2026-06-13 | Updated | Adjusted learning workflow: less frequent Git checkpoints, faster coding flow. |
+| 2026-06-13 | Done | Completed Lesson 01 milestone: loop, commands, and memory. |
 
 ## Next Action
 
-- Turn the script from one input into a loop.
-- Goal: keep asking the user for input until they type `exit`, `quit`, or `bye`.
-- Continue coding first; Git checkpoint only after this loop behavior works.
-- Update this file after meaningful learning milestones.
+- Start Lesson 02: separate agent logic into cleaner functions.
+- Goal: make the code easier to extend before adding real LLM calls.
+- Continue coding first; Git checkpoint only after the next meaningful milestone works.
