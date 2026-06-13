@@ -16,9 +16,21 @@ COMMAND_UPPER = "upper"
 
 
 TOOLS = {
-    COMMAND_TIME: get_current_time,
-    COMMAND_COUNT: calculate_word_count,
-    COMMAND_UPPER: convert_to_uppercase,
+    COMMAND_TIME: {
+        "function": get_current_time,
+        "description": "Returns the current time",
+        "example": "time",
+    },
+    COMMAND_COUNT: {
+        "function": calculate_word_count,
+        "description": "Counts words in text",
+        "example": "count hello world",
+    },
+    COMMAND_UPPER: {
+        "function": convert_to_uppercase,
+        "description": "Converts text to uppercase",
+        "example": "upper hello world",
+    },
 }
 
 AVAILABLE_COMMANDS = {
@@ -38,7 +50,19 @@ def should_exit(user_input):
     return clean_input(user_input) in EXIT_COMMANDS
 
 def get_help_text():
-    return "Available commands: help, time, history, count <text>, upper <text>, exit"
+    lines = ["Available commands:"]
+
+    lines.append("- help: Shows available commands")
+    lines.append("- history: Shows conversation history")
+
+    for tool_name, tool_info in TOOLS.items():
+        description = tool_info["description"]
+        example = tool_info["example"]
+        lines.append(f"- {tool_name}: {description} | Example: {example}")
+
+    lines.append("- exit: Stops the agent")
+
+    return "\n".join(lines)
 
 def is_count_command(command):
     return command.startswith(f"{COMMAND_COUNT} ")
@@ -51,7 +75,7 @@ def handle_command(command, conversation_history):
         return get_help_text()
 
     if command == COMMAND_TIME:
-        tool = TOOLS[COMMAND_TIME]
+        tool = TOOLS[COMMAND_TIME]["function"]
         return tool()
 
     if command == COMMAND_HISTORY:
@@ -59,13 +83,13 @@ def handle_command(command, conversation_history):
     
     if is_count_command(command):
         text_to_count = command.removeprefix("count ")
-        tool = TOOLS[COMMAND_COUNT]
+        tool = TOOLS[COMMAND_COUNT]["function"]
         word_count = tool(text_to_count)
         return f"Word count: {word_count}"
     
     if is_upper_command(command):
         text_to_convert = command.removeprefix("upper ")
-        tool = TOOLS[COMMAND_UPPER]
+        tool = TOOLS[COMMAND_UPPER]["function"]
         upper_text = tool(text_to_convert)
         return f"Uppercase: {upper_text}"
 
