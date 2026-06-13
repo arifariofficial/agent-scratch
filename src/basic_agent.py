@@ -70,21 +70,33 @@ def is_count_command(command):
 def is_upper_command(command):
     return command.startswith(f"{COMMAND_UPPER} ")
 
+def contains_command(command, command_name):
+    words = command.split()
+    return command_name in words
+
 def parse_intent(command):
-    if command.startswith(COMMAND_COUNT):
+    if contains_command(command, COMMAND_COUNT):
         return COMMAND_COUNT
 
-    if command.startswith(COMMAND_UPPER):
+    if contains_command(command, COMMAND_UPPER):
         return COMMAND_UPPER
 
     return command
 
 def extract_text_after_command(command, command_name):
-    return command.removeprefix(command_name).strip()
+    words = command.split()
+
+    if command_name not in words:
+        return ""
+
+    command_index = words.index(command_name)
+    remaining_words = words[command_index + 1:]
+
+    return " ".join(remaining_words)
 
 def handle_command(command, conversation_history):
     intent = parse_intent(command)
-    
+
     if intent == COMMAND_HELP:
         return get_help_text()
 
