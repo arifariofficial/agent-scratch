@@ -96,32 +96,41 @@ def handle_command(command, conversation_history):
         COMMAND_UPPER,
     )
 
-    if action["type"] == "fallback":
-        return None
+    result = execute_action(action, command, conversation_history)
 
+    return respond_to_action_result(action, result, command)
+
+def create_fallback_response(user_input):
+    return f"{AGENT_NAME} ({AGENT_PERSONALITY}): You said: {user_input}"
+
+def execute_action(action, command, conversation_history):
     if action["type"] == "command" and action["command_name"] == COMMAND_HELP:
         return get_help_text()
+
+    if action["type"] == "command" and action["command_name"] == COMMAND_HISTORY:
+        return f"Conversation history: {conversation_history}"
 
     if action["type"] == "tool" and action["tool_name"] == COMMAND_TIME:
         return execute_tool(COMMAND_TIME, TOOLS)
 
-    if action["type"] == "command" and action["command_name"] == COMMAND_HISTORY:
-        return f"Conversation history: {conversation_history}"
-    
     if action["type"] == "tool" and action["tool_name"] == COMMAND_COUNT:
         text_to_count = extract_text_after_command(command, COMMAND_COUNT)
-        word_count = execute_tool(COMMAND_COUNT, TOOLS, text_to_count)
-        return f"Word count: {word_count}"
+        return execute_tool(COMMAND_COUNT, TOOLS, text_to_count)
 
     if action["type"] == "tool" and action["tool_name"] == COMMAND_UPPER:
         text_to_convert = extract_text_after_command(command, COMMAND_UPPER)
-        upper_text = execute_tool(COMMAND_UPPER, TOOLS, text_to_convert)
-        return f"Uppercase: {upper_text}"
+        return execute_tool(COMMAND_UPPER, TOOLS, text_to_convert)
 
     return None
 
-def create_fallback_response(user_input):
-    return f"{AGENT_NAME} ({AGENT_PERSONALITY}): You said: {user_input}"
+def respond_to_action_result(action, result, user_input):
+    if action["type"] == "tool":
+        return str(result)
+
+    if action["type"] == "command":
+        return str(result)
+
+    return create_fallback_response(user_input)
 
 def get_agent_response(user_input, conversation_history):
     cleaned_input = clean_input(user_input)
