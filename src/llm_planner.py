@@ -24,7 +24,9 @@ def build_planner_messages(user_input, tools):
                 "- Use upper only when the user asks to uppercase, capitalize, or convert text to uppercase.\n"
                 "- Use time only when the user asks for time.\n"
                 "- Otherwise use fallback.\n\n"
-                "When using count or upper, include args.text with the exact text to process.\n\n"
+                "When using count or upper, include args.text with only the target text, not the instruction words.\n"
+                "If the user says 'make this uppercase: hello world', args.text should be 'hello world'.\n"
+                "If the user says 'count words in this text: one two three four', args.text should be 'one two three four'.\n\n"
                 "Return exactly one JSON object:\n"
                 '{"type": "tool", "tool_name": "count", "args": {"text": "text to count"}}\n'
                 '{"type": "tool", "tool_name": "upper", "args": {"text": "text to uppercase"}}\n'
