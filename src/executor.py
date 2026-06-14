@@ -1,3 +1,6 @@
+from debug_logger import debug_log
+
+
 def execute_tool(tool_name, tools, text=""):
     tool = tools[tool_name]["function"]
 
@@ -6,11 +9,15 @@ def execute_tool(tool_name, tools, text=""):
     else:
         raw_result = tool()
 
-    return {
+    tool_result = {
         "tool_name": tool_name,
         "input": text,
         "output": raw_result,
     }
+
+    debug_log("Tool execution result", tool_result)
+
+    return tool_result
 
 
 def execute_action(
