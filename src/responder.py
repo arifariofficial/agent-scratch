@@ -1,11 +1,11 @@
 from llm_client import LLMClient
-from config import LLM_MODEL_NAME
+from config import LLM_MODEL_NAME, LLM_API_KEY
 from prompt_builder import build_fallback_messages
 
 
 def create_fallback_response(agent, user_input):
     messages = build_fallback_messages(agent, user_input)
-    llm = LLMClient(LLM_MODEL_NAME)
+    llm = LLMClient(LLM_MODEL_NAME, LLM_API_KEY)
     return llm.ask(messages)
 
 
