@@ -1,11 +1,17 @@
 def build_fallback_messages(agent, user_input):
-    return [
+    messages = [
         {
             "role": "system",
             "content": f"You are {agent.name}. Personality: {agent.personality}. Respond helpfully and directly.",
-        },
-        {
-            "role": "user",
-            "content": user_input,
-        },
+        }
     ]
+
+    for previous_user_input in agent.get_history()[-5:]:
+        messages.append(
+            {
+                "role": "user",
+                "content": previous_user_input,
+            }
+        )
+
+    return messages
