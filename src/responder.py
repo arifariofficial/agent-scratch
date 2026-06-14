@@ -1,3 +1,4 @@
+from debug_logger import debug_log
 from llm_client import LLMClient
 from config import (
     AZURE_OPENAI_ENDPOINT,
@@ -17,12 +18,18 @@ def create_llm_client():
 
 def create_fallback_response(agent, user_input):
     messages = build_fallback_messages(agent, user_input)
+
+    debug_log("Fallback response messages", messages)
+
     llm = create_llm_client()
     return llm.ask(messages)
 
 
 def create_tool_response(agent, user_input, action, tool_result):
     messages = build_final_answer_messages(agent, user_input, action, tool_result)
+
+    debug_log("Final response messages", messages)
+
     llm = create_llm_client()
     return llm.ask(messages)
 
