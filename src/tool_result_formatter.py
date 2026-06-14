@@ -1,4 +1,7 @@
 def format_tool_result(tool_result):
+    if tool_result is None:
+        return "No tool result."
+
     if not isinstance(tool_result, dict):
         return str(tool_result)
 
