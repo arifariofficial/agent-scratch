@@ -67,7 +67,16 @@ def is_valid_plan(action, tools, command_help, command_history):
         return True
 
     if action["type"] == "tool":
-        return action.get("tool_name") in tools
+        tool_name = action.get("tool_name")
+
+        if tool_name not in tools:
+            return False
+
+        if tool_name in {"count", "upper"}:
+            args = action.get("args", {})
+            return bool(args.get("text"))
+
+        return True
 
     if action["type"] == "command":
         return action.get("command_name") in {command_help, command_history}
