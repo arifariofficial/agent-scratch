@@ -6,14 +6,15 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 
 ## Current Status
 
-- Current branch: `lesson-04-agent-loop`
+- Current branch: `lesson-05-memory`
 - Base branch: `main`
 - Learning mode: code first, Git/GitHub checkpoint only after meaningful milestones.
 - Lesson 01 branch: completed and merged into `main`.
 - Lesson 02 status: completed on `lesson-02-llm-agent` and merged forward.
 - Lesson 03 status: completed on `lesson-03-llm-planner` and merged into `main`.
-- Lesson 04 status: active, main milestone completed.
-- Current milestone: BasicAgent now runs an agent loop where the LLM planner chooses actions, tools execute, and the LLM writes the final answer using the tool result.
+- Lesson 04 status: completed on `lesson-04-agent-loop` and merged into `main`.
+- Lesson 05 status: active, main milestone completed.
+- Current milestone: BasicAgent now stores full user + assistant conversation history, uses recent memory in fallback LLM calls, remembers tool final answers, and has a configurable memory limit.
 - Authentication mode: API key from `.env`, not Managed Identity.
 - Endpoint style: Azure AI Foundry project OpenAI-compatible endpoint, e.g. `/openai/v1` with `api-version` passed via OpenAI client `default_query`.
 
@@ -88,21 +89,37 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
   - normal chat after tool calls -> fallback -> real LLM answer
 - Removed temporary planner debug output before committing.
 
+## Completed Lesson 05 Milestones: Memory
+
+- Upgraded `Agent` memory from raw user strings to structured messages with `role` and `content`.
+- Added `remember_user_message()` and `remember_assistant_message()`.
+- Updated the main loop so assistant responses are saved after generation.
+- Added `get_recent_history(limit)` for controlled memory retrieval.
+- Updated fallback LLM messages to include recent conversation history.
+- Verified personal memory:
+  - `My name is Ariful` -> assistant acknowledges name
+  - `What is my name?` -> assistant answers `Ariful`
+- Verified tool-result memory:
+  - `count words in this text: one two three four` -> final answer saved
+  - `What did you just count?` -> assistant remembers the counted text
+- Added `MEMORY_MESSAGE_LIMIT` in `src/config.py`.
+- Updated `src/prompt_builder.py` to use the configurable memory limit.
+
 ## Current Structure
 
 ```text
 .env.example          = example environment variables, no real secrets
 requirements.txt      = Python dependencies
-src/config.py         = constants and environment settings
+src/config.py         = constants and environment settings, including memory limit
 src/tool_registry.py  = tool definitions and metadata
 src/tools.py          = tool functions
 src/planner.py        = LLM planner + keyword fallback + validation
 src/llm_planner.py    = builds planner messages and parses JSON plans
 src/executor.py       = action and tool execution
-src/prompt_builder.py = builds fallback and final-answer messages for LLM calls
+src/prompt_builder.py = builds fallback, memory-aware, and final-answer messages for LLM calls
 src/llm_client.py     = wraps Azure AI Foundry OpenAI-compatible model call
 src/responder.py      = response logic, including final LLM answer after tool execution
-src/agent.py          = Agent state and behavior
+src/agent.py          = Agent state, structured memory, and behavior
 src/basic_agent.py    = main loop
 ```
 
@@ -150,10 +167,11 @@ AZURE_OPENAI_DEPLOYMENT_NAME=gpt-5.4-mini
 | 2026-06-14 | Completed | Lesson 02 cleanup: added `.env.example`, `requirements.txt`, and LLM error handling. |
 | 2026-06-14 | Completed | Lesson 03 LLM planner milestone: JSON action planning, tool args, validation, and normal chat fallback to real LLM. |
 | 2026-06-14 | Completed | Lesson 04 agent loop milestone: tool execution is followed by final LLM answer using the tool result. |
+| 2026-06-14 | Completed | Lesson 05 memory milestone: structured user/assistant memory, recent history in fallback prompt, tool-result memory, and configurable memory limit. |
 
 ## Next Action
 
-- Pull the latest tracking commit locally on `lesson-04-agent-loop`.
-- Review Lesson 04 code once, then merge `lesson-04-agent-loop` into `main` if clean.
-- Next coding direction: improve agent loop robustness, add structured final answer formatting, or add another real tool.
+- Pull the latest tracking commit locally on `lesson-05-memory`.
+- Review Lesson 05 code once, then merge `lesson-05-memory` into `main` if clean.
+- Next coding direction: improve memory robustness, add memory filtering/summarization, or add another real tool.
 - Keep coding fast; update GitHub tracking only after major milestones.
