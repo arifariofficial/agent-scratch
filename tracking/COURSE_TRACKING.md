@@ -6,30 +6,35 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 
 ## Current Status
 
-- Working branch: `lesson-01-basic-agent`
+- Main branch: `main`
+- Lesson 01 branch: `lesson-01-basic-agent` merged into `main`.
+- Next working branch: `lesson-02-llm-agent`
 - Learning mode: code first, Git checkpoint only after meaningful milestones.
-- Lesson 01 completed: basic input loop, exit command, decision logic, simple memory.
-- Lesson 02 completed: cleaner structure with helper functions, constants, fallback response, agent name/personality, welcome message.
-- Lesson 03 completed: basic tool-style commands for time, word count, and uppercase.
-- Lesson 04 completed: cleaner command routing using command constants and helper functions.
-- Lesson 05 completed: moved tool functions into `src/tools.py`.
-- Lesson 06 completed: added a tool registry.
-- Lesson 07 completed: added tool metadata with descriptions and examples.
-- Lesson 08 completed: added basic intent parsing and text extraction after command.
-- Lesson 09 completed: improved argument parsing so inputs like `please count hello world` work.
-- Lesson 10 completed: added simple planner for deciding tool, command, or fallback.
-- Lesson 11 completed: moved planner logic into `src/planner.py`.
-- Lesson 12 completed: moved tool execution into `src/executor.py`.
-- Lesson 13 completed: separated plan -> execute -> respond flow.
-- Lesson 14 completed: moved action execution into executor.
-- Lesson 15 completed: moved constants into `src/config.py`.
-- Lesson 16 completed: moved tool registry into `src/tool_registry.py`.
-- Lesson 17 completed: moved response logic into `src/responder.py`.
-- Lesson 18 completed: added basic `Agent` class.
-- Lesson 19 completed: moved fallback response into `Agent` class.
-- Lesson 20 completed: moved memory access into `Agent` class.
-- Lesson 21 completed: moved exit handling into `Agent` class.
-- Lesson 22 completed: removed unused helper functions and cleaned `.gitignore`.
+- Lesson 01 completed: basic local rule-based agent from scratch.
+- Lesson 02 goal: connect the agent to an LLM and start turning it into a real LLM-powered agent.
+
+## Completed Lesson 01 Topics
+
+- Basic input loop
+- Exit commands
+- Conversation memory
+- Command routing
+- Tool-style functions
+- Tool registry
+- Tool metadata
+- Intent parsing
+- Argument extraction
+- Planner module
+- Executor module
+- Responder module
+- Config module
+- Agent class
+- Agent-owned memory access
+- Agent-owned fallback response
+- Agent-owned exit handling
+- `.gitignore` cleanup
+- Branch merge into `main`
+- Basic merge conflict resolution
 
 ## Current Structure
 
@@ -71,8 +76,11 @@ src/basic_agent.py    = main loop
 | 2026-06-14 | Completed | Lesson 20: moved memory access into Agent class. |
 | 2026-06-14 | Completed | Lesson 21: moved exit handling into Agent class. |
 | 2026-06-14 | Completed | Lesson 22: removed unused helper functions and updated `.gitignore`. |
+| 2026-06-14 | Completed | Lesson 23: reviewed final structure and merged `lesson-01-basic-agent` into `main`. |
 
 ## Next Action
 
-- Start Lesson 23: review final structure and decide whether to merge `lesson-01-basic-agent` into `main`.
+- Create or switch to branch `lesson-02-llm-agent`.
+- Pull latest `main` first because this tracking file was updated directly on GitHub.
+- Start Lesson 02: connect the agent to an LLM.
 - Keep coding fast; commit only after a meaningful milestone.
