@@ -38,7 +38,7 @@ def build_final_answer_messages(agent, user_input, action, tool_result):
             "content": (
                 f"Original user request: {user_input}\n"
                 f"Tool action: {action}\n"
-                f"Tool result: {tool_result}\n\n"
+                f"Tool result details: {tool_result}\n\n"
                 "Write the final answer to the user."
             ),
         },

@@ -2,9 +2,15 @@ def execute_tool(tool_name, tools, text=""):
     tool = tools[tool_name]["function"]
 
     if text:
-        return tool(text)
+        raw_result = tool(text)
+    else:
+        raw_result = tool()
 
-    return tool()
+    return {
+        "tool_name": tool_name,
+        "input": text,
+        "output": raw_result,
+    }
 
 
 def execute_action(
