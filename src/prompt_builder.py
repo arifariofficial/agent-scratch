@@ -1,10 +1,11 @@
-def build_fallback_prompt(agent, user_input):
-    return f"""
-You are {agent.name}.
-Personality: {agent.personality}
-
-User message:
-{user_input}
-
-Respond helpfully and directly.
-""".strip()
+def build_fallback_messages(agent, user_input):
+    return [
+        {
+            "role": "system",
+            "content": f"You are {agent.name}. Personality: {agent.personality}. Respond helpfully and directly.",
+        },
+        {
+            "role": "user",
+            "content": user_input,
+        },
+    ]
