@@ -1,12 +1,12 @@
 from llm_client import LLMClient
 from config import LLM_MODEL_NAME
-from prompt_builder import build_fallback_prompt
+from prompt_builder import build_fallback_messages
 
 
 def create_fallback_response(agent, user_input):
-    prompt = build_fallback_prompt(agent, user_input)
+    messages = build_fallback_messages(agent, user_input)
     llm = LLMClient(LLM_MODEL_NAME)
-    return llm.ask(prompt)
+    return llm.ask(messages)
 
 
 def respond_to_action_result(action, result, user_input, agent):
