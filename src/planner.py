@@ -1,3 +1,4 @@
+from debug_logger import debug_log
 from llm_client import LLMClient
 from llm_planner import build_planner_messages, parse_llm_plan
 from config import (
@@ -58,6 +59,7 @@ def plan_action_with_llm(command, tools):
 
     messages = build_planner_messages(command, tools)
     raw_response = llm.ask(messages)
+    debug_log("LLM plan raw response", raw_response)
 
     return parse_llm_plan(raw_response)
 

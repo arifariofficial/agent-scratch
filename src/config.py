@@ -20,3 +20,5 @@ COMMAND_UPPER = "upper"
 
 
 MEMORY_MESSAGE_LIMIT = 8
+
+DEBUG_MODE = False
