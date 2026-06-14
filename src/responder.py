@@ -1,11 +1,21 @@
 from llm_client import LLMClient
-from config import LLM_MODEL_NAME, LLM_API_KEY
+from config import (
+    AZURE_OPENAI_ENDPOINT,
+    AZURE_OPENAI_API_KEY,
+    AZURE_OPENAI_DEPLOYMENT_NAME,
+)
 from prompt_builder import build_fallback_messages
 
 
 def create_fallback_response(agent, user_input):
     messages = build_fallback_messages(agent, user_input)
-    llm = LLMClient(LLM_MODEL_NAME, LLM_API_KEY)
+
+    llm = LLMClient(
+        endpoint=AZURE_OPENAI_ENDPOINT,
+        api_key=AZURE_OPENAI_API_KEY,
+        deployment_name=AZURE_OPENAI_DEPLOYMENT_NAME,
+    )
+
     return llm.ask(messages)
 
 

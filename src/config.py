@@ -6,8 +6,9 @@ load_dotenv()
 AGENT_NAME = "BasicAgent"
 AGENT_PERSONALITY = "helpful and direct"
 
-LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "placeholder-model")
-LLM_API_KEY = os.getenv("LLM_API_KEY")
+AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
+AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
+AZURE_OPENAI_DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
 
 EXIT_COMMANDS = {"exit", "quit", "bye"}
 
