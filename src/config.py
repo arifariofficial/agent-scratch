@@ -1,5 +1,6 @@
 AGENT_NAME = "BasicAgent"
 AGENT_PERSONALITY = "helpful and direct"
+LLM_MODEL_NAME = "placeholder-model"
 
 EXIT_COMMANDS = {"exit", "quit", "bye"}
 
