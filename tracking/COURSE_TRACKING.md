@@ -6,13 +6,14 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 
 ## Current Status
 
-- Current branch: `lesson-03-llm-planner`
-- Base branch: `lesson-02-llm-agent`
+- Current branch: `lesson-04-agent-loop`
+- Base branch: `main`
 - Learning mode: code first, Git/GitHub checkpoint only after meaningful milestones.
 - Lesson 01 branch: completed and merged into `main`.
-- Lesson 02 status: completed on `lesson-02-llm-agent`.
-- Lesson 03 status: active, core milestone completed.
-- Current milestone: BasicAgent can use an LLM planner to choose tool actions, pass tool arguments, validate plans, and still route normal chat to the real Azure AI Foundry model.
+- Lesson 02 status: completed on `lesson-02-llm-agent` and merged forward.
+- Lesson 03 status: completed on `lesson-03-llm-planner` and merged into `main`.
+- Lesson 04 status: active, main milestone completed.
+- Current milestone: BasicAgent now runs an agent loop where the LLM planner chooses actions, tools execute, and the LLM writes the final answer using the tool result.
 - Authentication mode: API key from `.env`, not Managed Identity.
 - Endpoint style: Azure AI Foundry project OpenAI-compatible endpoint, e.g. `/openai/v1` with `api-version` passed via OpenAI client `default_query`.
 
@@ -75,6 +76,18 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
   - `make this uppercase: hello from ariful` -> `HELLO FROM ARIFUL`
   - `hello normal chat` -> real LLM chat response
 
+## Completed Lesson 04 Milestones: Agent Loop
+
+- Added final-answer message builder in `src/prompt_builder.py`.
+- Updated `src/responder.py` so tool results are passed back to the LLM for a human-friendly final answer.
+- Tool result is no longer just returned raw in the main path.
+- Verified working agent loop:
+  - normal chat -> fallback -> real LLM answer
+  - count request -> LLM planner -> count tool -> LLM final answer using tool result
+  - uppercase request -> LLM planner -> upper tool -> LLM final answer using tool result
+  - normal chat after tool calls -> fallback -> real LLM answer
+- Removed temporary planner debug output before committing.
+
 ## Current Structure
 
 ```text
@@ -86,9 +99,9 @@ src/tools.py          = tool functions
 src/planner.py        = LLM planner + keyword fallback + validation
 src/llm_planner.py    = builds planner messages and parses JSON plans
 src/executor.py       = action and tool execution
-src/prompt_builder.py = builds messages for LLM calls
+src/prompt_builder.py = builds fallback and final-answer messages for LLM calls
 src/llm_client.py     = wraps Azure AI Foundry OpenAI-compatible model call
-src/responder.py      = response logic, connects planner output to LLM fallback
+src/responder.py      = response logic, including final LLM answer after tool execution
 src/agent.py          = Agent state and behavior
 src/basic_agent.py    = main loop
 ```
@@ -136,10 +149,11 @@ AZURE_OPENAI_DEPLOYMENT_NAME=gpt-5.4-mini
 | 2026-06-14 | Completed | Lesson 02 LLM milestone: connected agent to Azure AI Foundry endpoint with real response. |
 | 2026-06-14 | Completed | Lesson 02 cleanup: added `.env.example`, `requirements.txt`, and LLM error handling. |
 | 2026-06-14 | Completed | Lesson 03 LLM planner milestone: JSON action planning, tool args, validation, and normal chat fallback to real LLM. |
+| 2026-06-14 | Completed | Lesson 04 agent loop milestone: tool execution is followed by final LLM answer using the tool result. |
 
 ## Next Action
 
-- Pull the latest tracking commit locally on `lesson-03-llm-planner`.
-- Continue Lesson 03 cleanup or prepare to merge `lesson-03-llm-planner` after final review.
-- Next coding direction: improve planner robustness and make final answers explain tool results more naturally.
+- Pull the latest tracking commit locally on `lesson-04-agent-loop`.
+- Review Lesson 04 code once, then merge `lesson-04-agent-loop` into `main` if clean.
+- Next coding direction: improve agent loop robustness, add structured final answer formatting, or add another real tool.
 - Keep coding fast; update GitHub tracking only after major milestones.
