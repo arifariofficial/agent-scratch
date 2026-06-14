@@ -6,7 +6,7 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 
 ## Current Status
 
-- Current branch: `lesson-06-tool-results`
+- Current branch: `lesson-07-agent-observability`
 - Base branch: `main`
 - Learning mode: code first, Git/GitHub checkpoint only after meaningful milestones.
 - Lesson 01 branch: completed and merged into `main`.
@@ -14,8 +14,9 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 - Lesson 03 status: completed on `lesson-03-llm-planner` and merged into `main`.
 - Lesson 04 status: completed on `lesson-04-agent-loop` and merged into `main`.
 - Lesson 05 status: completed on `lesson-05-memory` and merged into `main`.
-- Lesson 06 status: active, main milestone completed.
-- Current milestone: tool execution now returns structured result dictionaries, final-answer prompts use formatted tool result details, and the formatter safely handles empty/non-dict results.
+- Lesson 06 status: completed on `lesson-06-tool-results` and merged into `main`.
+- Lesson 07 status: completed on `lesson-07-agent-observability`; ready to merge into `main`.
+- Current milestone: debug logging now exposes planner decisions, tool execution results, and response-generation messages when `DEBUG_MODE = True`, while normal mode stays clean.
 - Authentication mode: API key from `.env`, not Managed Identity.
 - Endpoint style: Azure AI Foundry project OpenAI-compatible endpoint, e.g. `/openai/v1` with `api-version` passed via OpenAI client `default_query`.
 
@@ -118,21 +119,33 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
   - `count words in this text: one two three four` -> natural answer using output `4`
   - `make this uppercase: hello from ariful` -> `HELLO FROM ARIFUL`
 
+## Completed Lesson 07 Milestones: Observability
+
+- Added `DEBUG_MODE` in `src/config.py`.
+- Added `src/debug_logger.py` with `debug_log(label, value)`.
+- Added planner debug logging for raw LLM planner JSON.
+- Added tool execution debug logging for structured tool result dictionaries.
+- Added response-generation debug logging for fallback and final-answer message payloads.
+- Verified debug mode:
+  - `DEBUG_MODE = True` prints `[DEBUG]` planner/tool/response details.
+  - `DEBUG_MODE = False` keeps normal user-facing output clean.
+
 ## Current Structure
 
 ```text
 .env.example              = example environment variables, no real secrets
 requirements.txt          = Python dependencies
-src/config.py             = constants and environment settings, including memory limit
+src/config.py             = constants and environment settings, including memory limit and debug mode
+src/debug_logger.py       = optional debug logging helper
 src/tool_registry.py      = tool definitions and metadata
 src/tools.py              = tool functions
-src/planner.py            = LLM planner + keyword fallback + validation
+src/planner.py            = LLM planner + keyword fallback + validation + planner debug logging
 src/llm_planner.py        = builds planner messages and parses JSON plans
-src/executor.py           = action and structured tool execution
+src/executor.py           = action and structured tool execution + tool debug logging
 src/tool_result_formatter.py = formats structured tool results for prompts
 src/prompt_builder.py     = builds fallback, memory-aware, and final-answer messages for LLM calls
 src/llm_client.py         = wraps Azure AI Foundry OpenAI-compatible model call
-src/responder.py          = response logic, including final LLM answer after tool execution
+src/responder.py          = response logic, including final LLM answer after tool execution + response debug logging
 src/agent.py              = Agent state, structured memory, and behavior
 src/basic_agent.py        = main loop
 ```
@@ -183,10 +196,11 @@ AZURE_OPENAI_DEPLOYMENT_NAME=gpt-5.4-mini
 | 2026-06-14 | Completed | Lesson 04 agent loop milestone: tool execution is followed by final LLM answer using the tool result. |
 | 2026-06-14 | Completed | Lesson 05 memory milestone: structured user/assistant memory, recent history in fallback prompt, tool-result memory, and configurable memory limit. |
 | 2026-06-14 | Completed | Lesson 06 tool result milestone: structured tool result dictionaries, formatted tool metadata for final-answer prompts, and safe formatter handling. |
+| 2026-06-14 | Completed | Lesson 07 observability milestone: debug mode, planner logs, tool execution logs, and response-generation logs. |
 
 ## Next Action
 
-- Pull the latest tracking commit locally on `lesson-06-tool-results`.
-- Review Lesson 06 behavior once, then merge `lesson-06-tool-results` into `main` if clean.
-- Next coding direction: add another real tool, improve tool schemas, or add tests.
+- Pull the latest tracking commit locally on `lesson-07-agent-observability`.
+- Review Lesson 07 behavior once, then merge `lesson-07-agent-observability` into `main` if clean.
+- Next coding direction: add tests for planner/executor behavior, improve tool schemas, or add another real tool.
 - Keep coding fast; update GitHub tracking only after major milestones.
