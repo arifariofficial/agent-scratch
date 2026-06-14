@@ -17,3 +17,6 @@ COMMAND_TIME = "time"
 COMMAND_HISTORY = "history"
 COMMAND_COUNT = "count"
 COMMAND_UPPER = "upper"
+
+
+MEMORY_MESSAGE_LIMIT = 8

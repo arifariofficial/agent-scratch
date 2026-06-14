@@ -1,3 +1,6 @@
+from config import MEMORY_MESSAGE_LIMIT
+
+
 def build_fallback_messages(agent, user_input):
     messages = [
         {
@@ -11,7 +14,7 @@ def build_fallback_messages(agent, user_input):
         }
     ]
 
-    messages.extend(agent.get_recent_history())
+    messages.extend(agent.get_recent_history(MEMORY_MESSAGE_LIMIT))
 
     return messages
 
