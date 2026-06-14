@@ -1,19 +1,19 @@
 def build_fallback_messages(agent, user_input):
-    return [
+    messages = [
         {
             "role": "system",
             "content": (
                 f"You are {agent.name}. "
                 f"Personality: {agent.personality}. "
-                "Respond to the latest user message only. "
-                "Do not continue old tool tasks."
+                "Use recent conversation history when helpful. "
+                "Answer the latest user message clearly."
             ),
-        },
-        {
-            "role": "user",
-            "content": user_input,
-        },
+        }
     ]
+
+    messages.extend(agent.get_recent_history())
+
+    return messages
 
 
 def build_final_answer_messages(agent, user_input, action, tool_result):

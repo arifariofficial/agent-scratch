@@ -91,13 +91,15 @@ def main():
 
     while True:
         user_input = input("You: ")
-        agent.remember(user_input)
+        agent.remember_user_message(user_input)
 
         if agent.should_exit(user_input, EXIT_COMMANDS):
             print("Goodbye")
             break
 
-        print(get_agent_response(user_input, agent))
+        agent_response = get_agent_response(user_input, agent)
+        agent.remember_assistant_message(agent_response)
+        print(agent_response)
 
 
 if __name__ == "__main__":
