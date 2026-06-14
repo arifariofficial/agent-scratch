@@ -6,12 +6,13 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 
 ## Current Status
 
-- Current branch: `lesson-02-llm-agent`
-- Base branch: `main`
+- Current branch: `lesson-03-llm-planner`
+- Base branch: `lesson-02-llm-agent`
 - Learning mode: code first, Git/GitHub checkpoint only after meaningful milestones.
 - Lesson 01 branch: completed and merged into `main`.
-- Lesson 02 status: active, major milestone completed.
-- Current milestone: BasicAgent is connected to Azure AI Foundry OpenAI-compatible endpoint and returns real model responses.
+- Lesson 02 status: completed on `lesson-02-llm-agent`.
+- Lesson 03 status: active, core milestone completed.
+- Current milestone: BasicAgent can use an LLM planner to choose tool actions, pass tool arguments, validate plans, and still route normal chat to the real Azure AI Foundry model.
 - Authentication mode: API key from `.env`, not Managed Identity.
 - Endpoint style: Azure AI Foundry project OpenAI-compatible endpoint, e.g. `/openai/v1` with `api-version` passed via OpenAI client `default_query`.
 
@@ -59,6 +60,21 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 - Verified real model response from Foundry endpoint.
 - Added basic LLM client error handling so provider errors return clean strings instead of crashing the app.
 
+## Completed Lesson 03 Milestones: LLM Planner
+
+- Created `src/llm_planner.py`.
+- Added planner prompt that asks the LLM to return strict JSON actions.
+- Connected `src/planner.py` to the real `LLMClient`.
+- Kept keyword planner as fallback when the LLM plan is invalid.
+- Added tool argument support, e.g. `{"type": "tool", "tool_name": "upper", "args": {"text": "hello"}}`.
+- Updated executor to use `action["args"]["text"]` for `count` and `upper` when available.
+- Improved planner prompt so `args.text` contains only target text, not instruction words.
+- Added plan validation for tool names and required tool arguments.
+- Verified working behavior:
+  - `count words in this text: one two three four` -> `4`
+  - `make this uppercase: hello from ariful` -> `HELLO FROM ARIFUL`
+  - `hello normal chat` -> real LLM chat response
+
 ## Current Structure
 
 ```text
@@ -67,7 +83,8 @@ requirements.txt      = Python dependencies
 src/config.py         = constants and environment settings
 src/tool_registry.py  = tool definitions and metadata
 src/tools.py          = tool functions
-src/planner.py        = intent and planning logic
+src/planner.py        = LLM planner + keyword fallback + validation
+src/llm_planner.py    = builds planner messages and parses JSON plans
 src/executor.py       = action and tool execution
 src/prompt_builder.py = builds messages for LLM calls
 src/llm_client.py     = wraps Azure AI Foundry OpenAI-compatible model call
@@ -118,9 +135,11 @@ AZURE_OPENAI_DEPLOYMENT_NAME=gpt-5.4-mini
 | 2026-06-14 | Completed | Lesson 23: merged Lesson 01 branch into `main`. |
 | 2026-06-14 | Completed | Lesson 02 LLM milestone: connected agent to Azure AI Foundry endpoint with real response. |
 | 2026-06-14 | Completed | Lesson 02 cleanup: added `.env.example`, `requirements.txt`, and LLM error handling. |
+| 2026-06-14 | Completed | Lesson 03 LLM planner milestone: JSON action planning, tool args, validation, and normal chat fallback to real LLM. |
 
 ## Next Action
 
-- Pull the latest tracking commit locally on `lesson-02-llm-agent`.
-- Continue Lesson 02 cleanup or start next milestone: tool-aware LLM planning / real agent reasoning loop.
+- Pull the latest tracking commit locally on `lesson-03-llm-planner`.
+- Continue Lesson 03 cleanup or prepare to merge `lesson-03-llm-planner` after final review.
+- Next coding direction: improve planner robustness and make final answers explain tool results more naturally.
 - Keep coding fast; update GitHub tracking only after major milestones.
