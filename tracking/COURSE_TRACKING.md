@@ -6,8 +6,17 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 
 ## Current Status
 
-- Working branch: `lesson-01-basic-agent`
-- Learning mode: code first, Git checkpoint only after meaningful milestones.
+- Current branch: `lesson-02-llm-agent`
+- Base branch: `main`
+- Learning mode: code first, Git/GitHub checkpoint only after meaningful milestones.
+- Lesson 01 branch: completed and merged into `main`.
+- Lesson 02 status: active, major milestone completed.
+- Current milestone: BasicAgent is connected to Azure AI Foundry OpenAI-compatible endpoint and returns real model responses.
+- Authentication mode: API key from `.env`, not Managed Identity.
+- Endpoint style: Azure AI Foundry project OpenAI-compatible endpoint, e.g. `/openai/v1` with `api-version` passed via OpenAI client `default_query`.
+
+## Completed Lesson 01: Basic Agent From Scratch
+
 - Lesson 01 completed: basic input loop, exit command, decision logic, simple memory.
 - Lesson 02 completed: cleaner structure with helper functions, constants, fallback response, agent name/personality, welcome message.
 - Lesson 03 completed: basic tool-style commands for time, word count, and uppercase.
@@ -30,18 +39,53 @@ Purpose: keep course progress, notes, completed steps, and next actions in GitHu
 - Lesson 20 completed: moved memory access into `Agent` class.
 - Lesson 21 completed: moved exit handling into `Agent` class.
 - Lesson 22 completed: removed unused helper functions and cleaned `.gitignore`.
+- Lesson 23 completed: reviewed final structure, resolved tracking conflict, and merged `lesson-01-basic-agent` into `main`.
+
+## Completed Lesson 02 Milestones: LLM Agent
+
+- Created `src/llm_client.py`.
+- Connected fallback responses through an LLM client instead of static echo response.
+- Added `LLMClient` class.
+- Moved model/provider settings into `src/config.py`.
+- Added `src/prompt_builder.py` for clean prompt/message construction.
+- Switched from prompt string to chat-style message list.
+- Added recent user conversation history into LLM messages.
+- Fixed duplicate user message bug in prompt history.
+- Added `.env` loading with `python-dotenv`.
+- Added `.env.example` without secrets.
+- Added `requirements.txt`.
+- Configured Azure AI Foundry OpenAI-compatible endpoint.
+- Switched to API key authentication from `.env`.
+- Verified real model response from Foundry endpoint.
+- Added basic LLM client error handling so provider errors return clean strings instead of crashing the app.
 
 ## Current Structure
 
 ```text
-src/config.py         = constants and settings
+.env.example          = example environment variables, no real secrets
+requirements.txt      = Python dependencies
+src/config.py         = constants and environment settings
 src/tool_registry.py  = tool definitions and metadata
 src/tools.py          = tool functions
 src/planner.py        = intent and planning logic
 src/executor.py       = action and tool execution
-src/responder.py      = response logic
+src/prompt_builder.py = builds messages for LLM calls
+src/llm_client.py     = wraps Azure AI Foundry OpenAI-compatible model call
+src/responder.py      = response logic, connects planner output to LLM fallback
 src/agent.py          = Agent state and behavior
 src/basic_agent.py    = main loop
+```
+
+## Environment Variables
+
+Real `.env` file is local-only and must not be committed.
+
+Expected variables:
+
+```env
+AZURE_OPENAI_ENDPOINT=https://your-foundry-project.services.ai.azure.com/openai/v1
+AZURE_OPENAI_API_KEY=your-api-key-here
+AZURE_OPENAI_DEPLOYMENT_NAME=gpt-5.4-mini
 ```
 
 ## Progress Log
@@ -71,8 +115,12 @@ src/basic_agent.py    = main loop
 | 2026-06-14 | Completed | Lesson 20: moved memory access into Agent class. |
 | 2026-06-14 | Completed | Lesson 21: moved exit handling into Agent class. |
 | 2026-06-14 | Completed | Lesson 22: removed unused helper functions and updated `.gitignore`. |
+| 2026-06-14 | Completed | Lesson 23: merged Lesson 01 branch into `main`. |
+| 2026-06-14 | Completed | Lesson 02 LLM milestone: connected agent to Azure AI Foundry endpoint with real response. |
+| 2026-06-14 | Completed | Lesson 02 cleanup: added `.env.example`, `requirements.txt`, and LLM error handling. |
 
 ## Next Action
 
-- Start Lesson 23: review final structure and decide whether to merge `lesson-01-basic-agent` into `main`.
-- Keep coding fast; commit only after a meaningful milestone.
+- Pull the latest tracking commit locally on `lesson-02-llm-agent`.
+- Continue Lesson 02 cleanup or start next milestone: tool-aware LLM planning / real agent reasoning loop.
+- Keep coding fast; update GitHub tracking only after major milestones.
